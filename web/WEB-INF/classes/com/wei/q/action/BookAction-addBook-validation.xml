@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE validators PUBLIC
+        "-//Apache Struts//XWork Validator 1.0.2//EN"
+        "http://struts.apache.org/dtds/xwork-validator-1.0.2.dtd">
+
+<validators>
+    <!-- name值为需要被校验的字段，这里对email字段进行校验 -->
+    <field name="book.name">
+        <!-- type值为校验器名，requiredstring：非空字符串校验器 -->
+        <field-validator type="requiredstring">
+            <message>书名不能为空</message>
+        </field-validator>
+        <!--&lt;!&ndash; 一个字段可以配置多个校验器，email：校验邮箱格式 &ndash;&gt;-->
+        <!--<field-validator type="email">-->
+            <!--<message>邮箱格式不正确</message>-->
+        <!--</field-validator>-->
+    </field>
+
+    <field name="book.author">
+        <field-validator type="requiredstring">
+            <message>作者不能为空 </message>
+        </field-validator>
+        <!-- stringlength：字符串长度校验 -->
+        <!--<field-validator type="stringlength">-->
+            <!--&lt;!&ndash; 为校验器指定参数实现不同的校验规则，minlength：最少长度 &ndash;&gt;-->
+            <!--<param name="minLength">6</param>-->
+            <!--<message>密码长度不能少于6位</message>-->
+        <!--</field-validator>-->
+    </field>
+
+    <!--&lt;!&ndash; 校验两次密码是否一致，使用 fieldexpression 校验器。expression参数指定判断用的表达式&ndash;&gt;-->
+    <!--<field name="repassword">-->
+        <!--<field-validator type="fieldexpression">-->
+            <!--&lt;!&ndash; 表达式要写在   <![CDATA[]]>   内 &ndash;&gt;-->
+            <!--<param name="expression"><![CDATA[repassword==password]]></param>-->
+            <!--<message>两次密码不一至</message>-->
+        <!--</field-validator>-->
+    <!--</field>-->
+
+    <!--&lt;!&ndash; 校验电话格式，使用regex正则表达示校验，regexExpression参数指定正则表达式 &ndash;&gt;-->
+    <!--<field name="phone">-->
+        <!--<field-validator type="regex">-->
+            <!--&lt;!&ndash; 注意！2.3.15前的版本使用 expression 参数 &ndash;&gt;-->
+            <!--<param name="regexExpression"><![CDATA[\d{11}]]></param>-->
+            <!--<message>电话号码格式不正确</message>-->
+        <!--</field-validator>-->
+    <!--</field>-->
+
+</validators>

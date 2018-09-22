@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+        "-//Apache Software Foundation//DTD Struts Configuration 2.5//EN"
+        "http://struts.apache.org/dtds/struts-2.5.dtd">
+
+<struts>
+
+    <constant name="struts.enable.DynamicMethodInvocation" value="true"/>
+    <constant name="struts.devMode" value="true"/>
+
+    <package name="main" extends="struts-default">
+        <global-results>
+            <result name="login">/login.jsp</result>
+        </global-results>
+        <global-allowed-methods>regex:.*</global-allowed-methods>
+        <action name="loginPerson" class="com.wei.q.action.LoginAction">
+            <result name="success">/welcome.jsp</result>
+            <result name="login">/loginForm.jsp</result>
+            <result name="input">/loginForm.jsp</result>
+        </action>
+        <action name="*Book" class="com.wei.q.action.BookAction" method="{1}">
+            <result>/successBook.jsp</result>
+            <result name="{1}">/{1}Book.jsp</result>
+            <result name="input">/initAddBook.jsp</result>
+            <result name="list">/listBook.jsp</result>
+        </action>
+
+        <action name="appendAction" class="com.wei.q.action.AppendAction">
+            <result>/appendTag.jsp</result>
+        </action>
+
+        <action name="*ResultTypeAction" class="com.wei.q.action.ResultTypeAction" method="{1}">
+            <result name="success" type="plainText">
+                <param name="location">/{1}ResultType.jsp</param>
+                <param name="charSet">UTF-8</param>
+            </result>
+            <result name="success1" type="redirect">
+                /{1}ResultType.jsp
+            </result>
+            <result name="success2" type="redirectAction">
+                <param name="actionName">listBook</param>
+            </result>
+            <result name="success3">/${tip}.jsp</result>
+        </action>
+
+        <action name="createExceptionAction" class="com.wei.q.action.CreateExceptionAction">
+            <exception-mapping exception="com.wei.q.exception.MyException" result="myexc"/>
+            <result name="myexc">/myexc.jsp</result>
+            <result>/welcome.jsp</result>
+        </action>
+
+        <action name="strutsTagAction" class="com.wei.q.action.StrutsTagAction">
+            <result>/strutsTag.jsp</result>
+        </action>
+
+        <action name="loginForm2" class="com.wei.q.action.LoginAction2">
+            <result>/loginAction2-success.jsp</result>
+            <result name="input">/conversion.jsp</result>
+        </action>
+
+    </package>
+
+    <package name="default2" namespace="/" extends="struts-default">
+        <interceptors>
+            <interceptor name="authority" class="com.wei.q.interceptor.AuthorityInterceptor"/>
+        </interceptors>
+        <action name="loginForm3" class="com.wei.q.action.LoginAction3">
+            <result>/loginAction3-success.jsp</result>
+            <result name="input">/loginForm3.jsp</result>
+        </action>
+        <action name="upload2Action" class="com.wei.q.action.Upload2Action">
+            <param name="savePath">/uploadFiles</param>
+            <param name="allowTypes">image/png,image/gif/image/jpeg</param>
+            <result>upload2Action-success.jsp</result>
+            <result name="input">/upload2.jsp</result>
+        </action>
+        <action name="downloadAction" class="com.wei.q.action.FileDownloadAction">
+            <param name="inputPath">image/meinv.jpg</param>
+            <result type="stream">
+                <param name="contentType">image/jpg</param>
+                <param name="inputName">who</param>
+                <param name="contentDisposition">filename="wjc_log.jpg"</param>
+                <param name="bufferSize">4096</param>
+            </result>
+        </action>
+        <action name="loginForm4" class="com.wei.q.action.LoginAction4">
+            <result name="success" type="redirectAction">result2Action</result>
+            <result name="input">/loginForm4.jsp</result>
+        </action>
+        <action name="result2Action" class="com.wei.q.action.Result2Action">
+            <interceptor-ref name="defaultStack"/>
+            <interceptor-ref name="authority"/>
+            <result>/result2Action-success.jsp</result>
+            <result name="login">/loginForm4.jsp</result>
+        </action>
+        <action name="tokenAction" class="com.wei.q.action.TokenAction">
+            <interceptor-ref name="token"/>
+            <interceptor-ref name="defaultStack"/>
+            <result name="input">/tokenInput.jsp</result>
+            <result name="invalid.token">/tokenInvalid.jsp</result>
+            <result>/tokenAction-success.jsp</result>
+        </action>
+        <action name="watiAction" class="com.wei.q.action.WatiAction">
+            <interceptor-ref name="execAndWait"/>
+            <interceptor-ref name="defaultStack"/>
+            <result>watiAction-success.jsp</result>
+            <result name="wait">/waiting.jsp</result>
+        </action>
+    </package>
+
+    <package name="myJson" extends="json-default">
+        <action name="printJsonAction" class="com.wei.q.action.PrintJsonAction">
+            <result type="json">
+                <param name="root">dataMap</param>
+                <param name="noCache">true</param>
+                <param name="contentType">text/html</param>
+            </result>
+        </action>
+    </package>
+
+    <package name="default" extends="struts-default">
+        <default-action-ref name="defaultAction"/>
+        <action name="defaultAction" class="com.wei.q.action.DefaultAction">
+            <result>/default.jsp</result>
+        </action>
+        <!--<action name="*" class="com.wei.q.action.OneAction">-->
+        <!--<result>/one.jsp</result>-->
+        <!--</action>-->
+        <action name="*Action" class="com.wei.q.action.TwoAction">
+            <result>/two.jsp</result>
+        </action>
+
+    </package>
+
+    <!--<include file="example.xml"/>-->
+
+    <!-- Add packages here -->
+
+</struts>
